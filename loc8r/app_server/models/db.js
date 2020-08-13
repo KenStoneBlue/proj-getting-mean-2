@@ -1,8 +1,20 @@
 const mongoose = require('mongoose');
 //const host = process.env.DB_HOST || '127.0.0.1/Loc8r'
 const host = process.env.DB_HOST || 'mongo-mongo/Loc8r'
-const dbURL = `mongodb://${host}`;
+const mongodbnet_id = process.env.MONGODBNET_ID;
+const mongodbnet_pwd = process.env.MONGODBNET_PWD;
+const mongodbnet_url = process.env.MONGODBNET_URL;
+let dbURL = ''
+if(mongodbnet_url && mongodbnet_pwd && mongodbnet_id){
+  console.log('using mongodbnet');
+  dbURL = `mongodb+srv://${mongodbnet_id}:${mongodbnet_pwd}@${mongodbnet_url}/loc8r?retryWrites=true&w=majority`;
+}else{
+  console.log(`using: ${host}`);
+  dbURL = `mongodb://${host}`;
+}
 const readLine = require('readline');
+
+console.log('KEN_ENV: ' + process.env.KEN_ENV);
 
 const connect = () => {
   setTimeout(() => mongoose.connect(dbURL, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }), 1000);

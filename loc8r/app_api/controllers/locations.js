@@ -15,7 +15,7 @@ const locationsListByDistance = async (req, res) => {
     maxDistance: 20000,
     limit: 10
   };
-  if (!lng || !lat) {
+  if ((!lng && lng !== 0) || (!lat && lat !== 0)) {
     return res
       .status(404)
       .json({ "message": "lng and lat query parameters are required" });
@@ -37,7 +37,7 @@ const locationsListByDistance = async (req, res) => {
         address: result.address,
         rating: result.rating,
         facilities: result.facilities,
-        distance: `${result.distance.calculated.toFixed()}m`
+        distance: `${result.distance.calculated.toFixed()}`
       }
     });
     res
